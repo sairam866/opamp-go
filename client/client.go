@@ -80,4 +80,6 @@ type OpAMPClient interface {
 	// May be called anytime after Start(), including from OnMessage handler.
 	// nil values are not allowed and will return an error.
 	SetPackageStatuses(statuses *protobufs.PackageStatuses) error
+
+	SetFlags(flags protobufs.AgentToServerFlags) error
 }

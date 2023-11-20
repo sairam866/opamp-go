@@ -101,6 +101,10 @@ func (c *httpClient) SetPackageStatuses(statuses *protobufs.PackageStatuses) err
 	return c.common.SetPackageStatuses(statuses)
 }
 
+func (c *httpClient) SetFlags(flags protobufs.AgentToServerFlags) error {
+	return c.common.SetFlags(flags)
+}
+
 func (c *httpClient) runUntilStopped(ctx context.Context) {
 	// Start the HTTP sender. This will make request/responses with retries for
 	// failures and will wait with configured polling interval if there is nothing

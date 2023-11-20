@@ -215,6 +215,7 @@ func (c *ClientCommon) PrepareFirstMessage(ctx context.Context) error {
 			msg.RemoteConfigStatus = c.ClientSyncedState.RemoteConfigStatus()
 			msg.PackageStatuses = c.ClientSyncedState.PackageStatuses()
 			msg.Capabilities = uint64(c.Capabilities)
+			msg.Flags = uint64(c.ClientSyncedState.Flags())
 		},
 	)
 	return nil
@@ -357,5 +358,18 @@ func (c *ClientCommon) SetPackageStatuses(statuses *protobufs.PackageStatuses) e
 		c.sender.ScheduleSend()
 	}
 
+	return nil
+}
+
+func (c *ClientCommon) SetFlags(flags protobufs.AgentToServerFlags) error {
+	if err := c.ClientSyncedState.SetFlags(flags); err != nil {
+		return err
+	}
+	c.sender.NextMessage().Update(
+		func(msg *protobufs.AgentToServer) {
+			msg.Flags = uint64(c.ClientSyncedState.Flags())
+		},
+	)
+	c.sender.ScheduleSend()
 	return nil
 }

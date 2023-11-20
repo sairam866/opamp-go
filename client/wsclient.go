@@ -116,6 +116,10 @@ func (c *wsClient) SetPackageStatuses(statuses *protobufs.PackageStatuses) error
 	return c.common.SetPackageStatuses(statuses)
 }
 
+func (c *wsClient) SetFlags(flags protobufs.AgentToServerFlags) error {
+	return c.common.SetFlags(flags)
+}
+
 // Try to connect once. Returns an error if connection fails and optional retryAfter
 // duration to indicate to the caller to retry after the specified time as instructed
 // by the Server.
